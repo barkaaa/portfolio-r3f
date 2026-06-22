@@ -23,8 +23,8 @@
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
-  body{background:#1a0f0f;display:grid;place-items:center;font-family:'VT323',monospace}
-  .stage{width:min(96vw,1024px);aspect-ratio:16/10}
+  body{background:var(--bg);font-family:'VT323',monospace}
+  .stage{width:100%;height:100%}
 
   .screen{width:100%;height:100%;background:var(--bg);border:1px solid var(--edge);
     border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
@@ -65,8 +65,6 @@
   .row .ps{font-size:19px;white-space:nowrap}
   #in{flex:1;background:transparent;border:none;outline:none;color:var(--grn);
     font-family:'VT323',monospace;font-size:19px;caret-color:var(--grn)}
-  .cur{width:9px;height:18px;background:var(--grn);display:inline-block}
-
   .blink{animation:bl 1s steps(1) infinite}
   svg rect.blink{animation:bl 1s steps(1) infinite}
   @keyframes bl{50%{opacity:0}}
@@ -102,33 +100,32 @@
     <div class="log" id="log">
       <div class="blk">
         <span class="h">whoami</span>
-        Software engineer in <span class="em">Tokyo</span>, ~2.5 years shipping on AWS serverless.<br>
-        I build backends with clean seams — and I'm making <span class="em">ZTH</span>,<br>
-        a tool that scores how hard any Japanese text is to read.
+        <span class="em">東京</span>を拠点に活動しているソフトウェアエンジニアです。<br>
+        約 2.5 年の実務経験があり、AWS Serverless を中心とした<br>
+        バックエンド開発・データ関連業務に携わってきました。
       </div>
       <div class="blk">
         <span class="h">skills</span>
         <span class="k">backend &nbsp;</span> Python · FastAPI · AWS Lambda · DynamoDB<br>
         <span class="k">frontend</span> React · TypeScript<br>
-        <span class="k">data &nbsp;&nbsp;&nbsp;</span> Redshift · Tableau<br>
-        <span class="k">cloud &nbsp;&nbsp;</span> AWS — <span class="em">SAA certified</span>
+        <span class="k">cloud/data</span> AWS · Redshift · Tableau<br>
+        <span class="k">cert &nbsp;&nbsp;&nbsp;</span> <span class="em">AWS SAA certified</span>
       </div>
       <div class="blk">
         <span class="h">projects</span>
-        <span class="em">ZTH (Zero to Hero)</span> — a growth tracker for language learners.<br>
-        Calibrated L1–L10 difficulty scoring for any Japanese material,<br>
-        with explainable evidence instead of black-box guesses.<br>
+        <span class="em">ZTH (Zero to Hero)</span> — 日本語学習者向けの読解難易度可視化ツール。<br>
+        任意の日本語テキストを L1〜L10 で評価し、<br>
+        語彙・文法・文章構造などの観点から判定理由を提示します。<br>
         <span class="k">FastAPI · Sudachi · React/TS</span> &nbsp; <a class="lnk" href="https://github.com">→ github.com/&lt;you&gt;/zth</a>
       </div>
-      <div class="blk k">type a command, or click one below — <span class="cmd">help</span> for the full list.</div>
+      <div class="blk k">command を入力するか、下のボタンをクリックしてください — <span class="cmd">help</span> で一覧表示。</div>
     </div>
 
     <div class="chips" id="chips"></div>
 
     <div class="row">
       <span class="ps">visitor@ryu.dev:~$</span>
-      <input id="in" autocomplete="off" spellcheck="false" placeholder="type 'help' or click a command…" aria-label="terminal input" />
-      <span class="cur blink"></span>
+      <input id="in" autocomplete="off" spellcheck="false" placeholder="type 'help' or click a command..." aria-label="terminal input" />
     </div>
   </div>
 </div>
@@ -153,13 +150,13 @@
 
   var cmds={
     help:function(){return "available: <span class='cmd'>whoami</span>  <span class='cmd'>skills</span>  <span class='cmd'>projects</span>  <span class='cmd'>experience</span>  <span class='cmd'>contact</span>  <span class='cmd'>ls</span>  <span class='cmd'>clear</span>";},
-    whoami:function(){return "Software engineer in <span class='em'>Tokyo</span>, ~2.5 years on AWS serverless.<br>Building <span class='em'>ZTH</span> — Japanese reading-difficulty scoring.";},
-    skills:function(){return "<span class='k'>backend &nbsp;</span> Python · FastAPI · AWS Lambda · DynamoDB<br><span class='k'>frontend</span> React · TypeScript<br><span class='k'>data &nbsp;&nbsp;&nbsp;</span> Redshift · Tableau<br><span class='k'>cloud &nbsp;&nbsp;</span> AWS — <span class='em'>SAA certified</span>";},
-    projects:function(){return "<span class='em'>ZTH (Zero to Hero)</span> — growth tracker for language learners.<br>L1–L10 difficulty scoring for any JP material, with explainable evidence.<br><span class='k'>FastAPI · Sudachi · React/TS</span> &nbsp; <a class='lnk' href='https://github.com'>→ github.com/&lt;you&gt;/zth</a>";},
-    experience:function(){return "<span class='cmd'>Software Engineer</span> · 2023–present · Tokyo<br>&nbsp;&nbsp;backend &amp; data across an AWS serverless stack";},
+    whoami:function(){return "<span class='em'>東京</span>を拠点に活動しているソフトウェアエンジニアです。<br>約 2.5 年の実務経験があり、AWS Serverless を中心とした開発に携わってきました。<br>現在は <span class='em'>ZTH</span> を開発しています。";},
+    skills:function(){return "<span class='k'>backend &nbsp;</span> Python · FastAPI · AWS Lambda · DynamoDB<br><span class='k'>frontend</span> React · TypeScript<br><span class='k'>cloud/data</span> AWS · Redshift · Tableau<br><span class='k'>cert &nbsp;&nbsp;&nbsp;</span> <span class='em'>AWS Certified Solutions Architect - Associate</span>";},
+    projects:function(){return "<span class='em'>ZTH (Zero to Hero)</span> — 日本語学習者が自分に合った教材を選べるように、文章の読解難易度を可視化するツールです。<br>L1〜L10 の難易度スコアと、語彙・文法・文章構造などに基づく判定理由を提示します。<br><span class='k'>FastAPI · Sudachi · React/TS</span> &nbsp; <a class='lnk' href='https://github.com'>→ github.com/&lt;you&gt;/zth</a>";},
+    experience:function(){return "<span class='cmd'>Software Engineer</span> · 2023 - Present · Tokyo<br>クライアント企業の業務システム開発に携わっています。<br>AWS Serverless を中心としたバックエンド開発、データ関連業務、既存システムの改善などを担当しています。";},
     contact:function(){return "<a class='lnk' href='https://github.com'>github</a> &nbsp; <a class='lnk' href='mailto:you@example.com'>email</a> &nbsp; <a class='lnk' href='https://x.com'>x</a> &nbsp; <a class='lnk' href='https://findy-code.io'>findy</a>";},
     ls:function(){return "<span class='cyn' style='color:var(--cyn)'>about.txt  skills.txt  projects/  experience.txt  contact.txt</span>";},
-    "sudo hire-me":function(){return "<span class='em'>[sudo] checking permissions…</span> ✓ access granted<br>nice. resume is one <span class='cmd'>contact</span> away.";},
+    "sudo hire-me":function(){return "<span class='em'>[sudo] checking permissions...</span> access granted<br>contact から連絡できます。";},
     clear:function(){return "__CLEAR__";}
   };
   var order=["whoami","skills","projects","experience","contact","help"];
