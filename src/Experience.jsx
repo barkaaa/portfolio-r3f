@@ -41,7 +41,7 @@ export default function Experience()
                         position={[0, 1.56, - 1.4]}
                         rotation-x={-0.256}
                     >
-                        <iframe srcDoc={ terminalHtml } title="ZTH terminal portfolio" />
+                        <iframe srcDoc={ terminalHtml } title="RYU portfolio terminal" />
                     </Html>
                 </primitive>
                 <Text 
