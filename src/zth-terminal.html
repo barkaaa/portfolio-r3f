@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ryu — terminal portfolio</title>
+<!--
+  EDIT THESE (search for <you>):
+    · name banner ........ ASCII "RYU" below, swap if you like
+    · github / email / x / findy links ... in the `cmds` object (contact)
+    · projects / experience copy ......... in the `cmds` object + pre-printed .log
+  EMBED INTO R3F:
+    lift the #screen div + <style> + <script> into your <Html> wrapper,
+    or load this file in an <iframe>. #screen fills 100% of its parent (1024x640).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0e1016; --bg2:#1b1f2b; --edge:#2a2f3d; --line:#20242f;
+    --grn:#7ee787; --amb:#e3b341; --cyn:#56d4dd; --dim:#8b949e; --txt:#c9d4e3;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:#1a0f0f;display:grid;place-items:center;font-family:'VT323',monospace}
+  .stage{width:min(96vw,1024px);aspect-ratio:16/10}
+
+  .screen{width:100%;height:100%;background:var(--bg);border:1px solid var(--edge);
+    border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
+    color:var(--txt);font-size:19px;line-height:1.34}
+
+  .bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);
+    border-bottom:1px solid var(--edge);flex:none}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .bar .ttl{flex:1;text-align:center;font-size:15px;color:#5b6477;letter-spacing:1px}
+
+  .head{display:flex;align-items:flex-end;gap:16px;padding:14px 18px 12px;flex:none;
+    border-bottom:1px solid var(--line)}
+  .desk{display:flex;align-items:flex-end;gap:6px}
+  .ascii{font-family:'Courier New',ui-monospace,monospace;white-space:pre;color:var(--grn);
+    font-size:12px;line-height:1.05;margin:0}
+  .tag{color:var(--dim);font-size:18px;margin-top:8px}
+  .tag b{color:var(--amb);font-weight:normal}
+
+  .log{flex:1;overflow-y:auto;padding:12px 18px}
+  .blk{margin:0 0 14px}
+  .echo{color:var(--dim)}
+  .ps{color:var(--amb)}
+  .cmd{color:var(--grn)}
+  .h{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--grn);
+    letter-spacing:1px;display:block;margin-bottom:7px}
+  .k{color:var(--dim)}
+  .em{color:var(--amb)}
+  a.lnk{color:var(--cyn);text-decoration:none;border-bottom:1px dotted #56d4dd55}
+  a.lnk:hover{border-bottom-style:solid}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:8px 18px;flex:none;border-top:1px solid var(--line)}
+  .chip{font-family:'VT323',monospace;font-size:18px;background:var(--bg2);color:#9fe6b0;
+    border:1px solid #2f3a4d;border-radius:6px;padding:2px 11px;cursor:pointer}
+  .chip:hover{background:#243049;border-color:#3c4a63}
+  .chip:focus-visible{outline:2px solid var(--grn);outline-offset:2px}
+
+  .row{display:flex;align-items:center;gap:8px;padding:10px 18px 14px;flex:none;border-top:1px solid var(--line)}
+  .row .ps{font-size:19px;white-space:nowrap}
+  #in{flex:1;background:transparent;border:none;outline:none;color:var(--grn);
+    font-family:'VT323',monospace;font-size:19px;caret-color:var(--grn)}
+  .cur{width:9px;height:18px;background:var(--grn);display:inline-block}
+
+  .blink{animation:bl 1s steps(1) infinite}
+  svg rect.blink{animation:bl 1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+  @media (prefers-reduced-motion: reduce){ .blink,svg rect.blink{animation:none} }
+
+  .log::-webkit-scrollbar{width:8px}
+  .log::-webkit-scrollbar-thumb{background:var(--edge);border-radius:4px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="screen" id="screen">
+    <div class="bar">
+      <span class="dot" style="background:#ff5f56"></span>
+      <span class="dot" style="background:#ffbd2e"></span>
+      <span class="dot" style="background:#27c93f"></span>
+      <span class="ttl">ryu@portfolio: ~</span>
+    </div>
+
+    <div class="head">
+      <div class="desk"><span id="mac"></span><span id="mug"></span></div>
+      <div>
+        <pre class="ascii">██████╗ ██╗   ██╗██╗   ██╗
+██╔══██╗╚██╗ ██╔╝██║   ██║
+██████╔╝ ╚████╔╝ ██║   ██║
+██╔══██╗  ╚██╔╝  ██║   ██║
+██║  ██║   ██║   ╚██████╔╝
+╚═╝  ╚═╝   ╚═╝    ╚═════╝ </pre>
+        <div class="tag">software engineer · tokyo · building <b>ZTH</b></div>
+      </div>
+    </div>
+
+    <div class="log" id="log">
+      <div class="blk">
+        <span class="h">whoami</span>
+        Software engineer in <span class="em">Tokyo</span>, ~2.5 years shipping on AWS serverless.<br>
+        I build backends with clean seams — and I'm making <span class="em">ZTH</span>,<br>
+        a tool that scores how hard any Japanese text is to read.
+      </div>
+      <div class="blk">
+        <span class="h">skills</span>
+        <span class="k">backend &nbsp;</span> Python · FastAPI · AWS Lambda · DynamoDB<br>
+        <span class="k">frontend</span> React · TypeScript<br>
+        <span class="k">data &nbsp;&nbsp;&nbsp;</span> Redshift · Tableau<br>
+        <span class="k">cloud &nbsp;&nbsp;</span> AWS — <span class="em">SAA certified</span>
+      </div>
+      <div class="blk">
+        <span class="h">projects</span>
+        <span class="em">ZTH (Zero to Hero)</span> — a growth tracker for language learners.<br>
+        Calibrated L1–L10 difficulty scoring for any Japanese material,<br>
+        with explainable evidence instead of black-box guesses.<br>
+        <span class="k">FastAPI · Sudachi · React/TS</span> &nbsp; <a class="lnk" href="https://github.com">→ github.com/&lt;you&gt;/zth</a>
+      </div>
+      <div class="blk k">type a command, or click one below — <span class="cmd">help</span> for the full list.</div>
+    </div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="row">
+      <span class="ps">visitor@ryu.dev:~$</span>
+      <input id="in" autocomplete="off" spellcheck="false" placeholder="type 'help' or click a command…" aria-label="terminal input" />
+      <span class="cur blink"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function draw(grid,pal,s){
+    var w=grid[0].length,h=grid.length,r='';
+    for(var y=0;y<h;y++)for(var x=0;x<w;x++){
+      var c=grid[y][x]; if(c==='.'||!pal[c]) continue;
+      var cls=(c==='X')?" class='blink'":"";
+      r+="<rect"+cls+" x='"+(x*s)+"' y='"+(y*s)+"' width='"+s+"' height='"+s+"' fill='"+pal[c]+"'/>";
+    }
+    return "<svg width='"+(w*s)+"' height='"+(h*s)+"' shape-rendering='crispEdges' style='display:block'>"+r+"</svg>";
+  }
+  var mac=["................","..OOOOOOOOOOOO..","..OBBBBBBBBBBbO.","..OBOOOOOOOOBbO.","..OBODDDDDDOBbO.","..OBODGGGGDOBbO.","..OBODGGGGDOBbO.","..OBODGGGXDOBbO.","..OBODDDDDDOBbO.","..OBOOOOOOOOBbO.","..OBBBBBBBBBBbO.","..OBLLBBBBLLBbO.","..OBBBBBBBBBBbO.","..ObbbbbbbbbbbO.","..OOOOOOOOOOOO..","................"];
+  var macPal={O:'#4a4f60',B:'#d8cfa8',b:'#b3a87f',D:'#0c1f16',G:'#7ee787',L:'#8a8262',X:'#7ee787'};
+  var mug=["..........","....S.S...","...S.S....",".OOOOOO...",".OCCCCO.OO",".OMMMMO..O",".OMMMMO..O",".OMMMMO.OO",".OOOOOO...",".........."];
+  var mugPal={O:'#4a4f60',M:'#3fb6bf',C:'#2a1d14',S:'#566177'};
+  document.getElementById('mac').innerHTML=draw(mac,macPal,7);
+  document.getElementById('mug').innerHTML=draw(mug,mugPal,6);
+
+  var cmds={
+    help:function(){return "available: <span class='cmd'>whoami</span>  <span class='cmd'>skills</span>  <span class='cmd'>projects</span>  <span class='cmd'>experience</span>  <span class='cmd'>contact</span>  <span class='cmd'>ls</span>  <span class='cmd'>clear</span>";},
+    whoami:function(){return "Software engineer in <span class='em'>Tokyo</span>, ~2.5 years on AWS serverless.<br>Building <span class='em'>ZTH</span> — Japanese reading-difficulty scoring.";},
+    skills:function(){return "<span class='k'>backend &nbsp;</span> Python · FastAPI · AWS Lambda · DynamoDB<br><span class='k'>frontend</span> React · TypeScript<br><span class='k'>data &nbsp;&nbsp;&nbsp;</span> Redshift · Tableau<br><span class='k'>cloud &nbsp;&nbsp;</span> AWS — <span class='em'>SAA certified</span>";},
+    projects:function(){return "<span class='em'>ZTH (Zero to Hero)</span> — growth tracker for language learners.<br>L1–L10 difficulty scoring for any JP material, with explainable evidence.<br><span class='k'>FastAPI · Sudachi · React/TS</span> &nbsp; <a class='lnk' href='https://github.com'>→ github.com/&lt;you&gt;/zth</a>";},
+    experience:function(){return "<span class='cmd'>Software Engineer</span> · 2023–present · Tokyo<br>&nbsp;&nbsp;backend &amp; data across an AWS serverless stack";},
+    contact:function(){return "<a class='lnk' href='https://github.com'>github</a> &nbsp; <a class='lnk' href='mailto:you@example.com'>email</a> &nbsp; <a class='lnk' href='https://x.com'>x</a> &nbsp; <a class='lnk' href='https://findy-code.io'>findy</a>";},
+    ls:function(){return "<span class='cyn' style='color:var(--cyn)'>about.txt  skills.txt  projects/  experience.txt  contact.txt</span>";},
+    "sudo hire-me":function(){return "<span class='em'>[sudo] checking permissions…</span> ✓ access granted<br>nice. resume is one <span class='cmd'>contact</span> away.";},
+    clear:function(){return "__CLEAR__";}
+  };
+  var order=["whoami","skills","projects","experience","contact","help"];
+  var log=document.getElementById('log'), inp=document.getElementById('in'),
+      chipBox=document.getElementById('chips'), hist=[], hi=-1;
+
+  order.forEach(function(c){
+    var b=document.createElement('button');
+    b.className='chip'; b.textContent=c;
+    b.addEventListener('click',function(){ run(c); inp.focus(); });
+    chipBox.appendChild(b);
+  });
+  function scroll(){ log.scrollTop=log.scrollHeight; }
+  function run(raw){
+    var c=(raw||'').trim(); if(!c) return;
+    hist.push(c); hi=hist.length;
+    var fn=cmds[c.toLowerCase()];
+    var out=fn?fn():"command not found: "+c+" — try <span class='cmd'>help</span>";
+    if(out==="__CLEAR__"){ log.innerHTML=''; inp.value=''; return; }
+    var d=document.createElement('div'); d.className='blk';
+    d.innerHTML="<div class='echo'><span class='ps'>visitor@ryu.dev:~$</span> <span class='cmd'>"+c+"</span></div>"+out;
+    log.appendChild(d); inp.value=''; scroll();
+  }
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){ run(inp.value); }
+    else if(e.key==='ArrowUp'){ if(hi>0){hi--;inp.value=hist[hi];} e.preventDefault(); }
+    else if(e.key==='ArrowDown'){ if(hi<hist.length-1){hi++;inp.value=hist[hi];} else {hi=hist.length;inp.value='';} e.preventDefault(); }
+  });
+  document.getElementById('screen').addEventListener('click',function(e){
+    if(e.target.tagName!=='A' && e.target.tagName!=='BUTTON') inp.focus();
+  });
+}());
+</script>
+</body>
+</html>
