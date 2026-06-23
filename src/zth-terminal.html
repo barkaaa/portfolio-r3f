@@ -15,33 +15,49 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#0e1016; --bg2:#1b1f2b; --edge:#2a2f3d; --line:#20242f;
-    --grn:#7ee787; --amb:#e3b341; --cyn:#56d4dd; --dim:#8b949e; --txt:#c9d4e3;
+    --bg:#0c1514; --bg2:#121c1a; --edge:#4d5b4e; --line:#38443a;
+    --grn:#9bbd79; --amb:#efe2b5; --cyn:#9bbd79; --dim:#8b987f; --txt:#efe6cd;
+    --shadow:#050909;
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
-  body{background:var(--bg);font-family:'VT323',monospace}
+  body{background:var(--bg);font-family:'M PLUS 1 Code','Hiragino Sans','Yu Gothic',monospace}
   .stage{width:100%;height:100%}
 
-  .screen{width:100%;height:100%;background:var(--bg);border:1px solid var(--edge);
-    border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
-    color:var(--txt);font-size:19px;line-height:1.34}
+  .screen{width:100%;height:100%;background:
+    radial-gradient(circle at 18% 28%, #18231f 0%, transparent 36%),
+    linear-gradient(135deg,#0a1212 0%,#111b18 58%,#08100f 100%);
+    border:1px solid var(--edge);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;
+    color:var(--txt);font-size:16px;line-height:1.48;box-shadow:inset 0 0 40px #0008}
 
-  .bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg2);
+  .bar{display:grid;grid-template-columns:120px 1fr 220px;align-items:center;gap:8px;padding:16px 20px;background:#121a18cc;
     border-bottom:1px solid var(--edge);flex:none}
-  .dot{width:12px;height:12px;border-radius:50%}
-  .bar .ttl{flex:1;text-align:center;font-size:15px;color:#5b6477;letter-spacing:1px}
+  .window-dots{display:flex;align-items:center;gap:14px}
+  .dot{width:15px;height:15px;border-radius:50%;box-shadow:0 0 18px #efe2b522}
+  .bar .ttl{text-align:center;font-size:17px;color:var(--amb);letter-spacing:0}
+  .bar .status{text-align:right;font-size:16px;color:var(--grn);letter-spacing:1px;text-transform:uppercase}
 
-  .head{display:flex;align-items:flex-end;gap:16px;padding:14px 18px 12px;flex:none;
-    border-bottom:1px solid var(--line)}
-  .desk{display:flex;align-items:flex-end;gap:6px}
-  .ascii{font-family:'Courier New',ui-monospace,monospace;white-space:pre;color:var(--grn);
-    font-size:12px;line-height:1.05;margin:0}
-  .tag{color:var(--dim);font-size:18px;margin-top:8px}
+  .head{display:grid;grid-template-columns:235px minmax(0,1fr);align-items:center;gap:36px;
+    min-height:300px;padding:42px 54px 38px;flex:none;border-bottom:1px solid var(--line)}
+  .hero-icon{filter:drop-shadow(5px 6px 0 #0005)}
+  .hero-copy{min-width:0}
+  .eyebrow{color:var(--grn);font-size:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+  .hero-name{color:var(--grn);font-family:'Press Start 2P','Courier New',monospace;
+    font-size:66px;line-height:1;margin:0;text-shadow:
+      4px 4px 0 #6f8b5e99,
+      0 0 8px #d9efad66,
+      0 0 18px #9bbd7988,
+      0 0 34px #9bbd794d;
+    animation:heroGlow 2.8s ease-in-out infinite}
+  .tag{color:var(--amb);font-size:20px;margin-top:18px}
   .tag b{color:var(--amb);font-weight:normal}
+  .hero-desc{color:var(--txt);font-size:16px;margin:18px 0 0}
+  .hero-badges{display:flex;flex-wrap:wrap;gap:16px;margin-top:22px}
+  .hero-badge{color:var(--grn);border:1px solid #75915f;border-radius:8px;padding:7px 16px;
+    background:#0f191733;box-shadow:inset 0 0 16px #9bbd7912;text-transform:uppercase;letter-spacing:1px}
 
   .log{flex:1;overflow-y:auto;padding:12px 18px}
   .blk{margin:0 0 14px}
@@ -52,41 +68,56 @@
     letter-spacing:1px;display:block;margin-bottom:7px}
   .k{color:var(--dim)}
   .em{color:var(--amb)}
-  a.lnk{color:var(--cyn);text-decoration:none;border-bottom:1px dotted #56d4dd55}
+  a.lnk{color:var(--cyn);text-decoration:none;border-bottom:1px dotted #9bbd7955}
   a.lnk:hover{border-bottom-style:solid}
 
   .chips{display:flex;flex-wrap:wrap;gap:8px;padding:8px 18px;flex:none;border-top:1px solid var(--line)}
-  .chip{font-family:'VT323',monospace;font-size:18px;background:var(--bg2);color:#9fe6b0;
-    border:1px solid #2f3a4d;border-radius:6px;padding:2px 11px;cursor:pointer}
-  .chip:hover{background:#243049;border-color:#3c4a63}
+  .chip{font-family:'M PLUS 1 Code','Hiragino Sans','Yu Gothic',monospace;font-size:14px;background:#111b18;color:var(--grn);
+    border:1px solid #4d5b4e;border-radius:7px;padding:2px 11px;cursor:pointer}
+  .chip:hover{background:#17241f;border-color:#75915f}
   .chip:focus-visible{outline:2px solid var(--grn);outline-offset:2px}
 
   .row{display:flex;align-items:center;gap:8px;padding:10px 18px 14px;flex:none;border-top:1px solid var(--line)}
-  .row .ps{font-size:19px;white-space:nowrap}
+  .row .ps{font-size:15px;white-space:nowrap}
   #in{flex:1;background:transparent;border:none;outline:none;color:var(--grn);
-    font-family:'VT323',monospace;font-size:19px;caret-color:var(--grn)}
+    font-family:'M PLUS 1 Code','Hiragino Sans','Yu Gothic',monospace;font-size:15px;caret-color:var(--grn)}
   .blink{animation:bl 1s steps(1) infinite}
   svg rect.blink{animation:bl 1s steps(1) infinite}
   @keyframes bl{50%{opacity:0}}
-  @media (prefers-reduced-motion: reduce){ .blink,svg rect.blink{animation:none} }
+  @keyframes heroGlow{
+    0%,100%{filter:brightness(1)}
+    50%{filter:brightness(1.16)}
+  }
+  @media (prefers-reduced-motion: reduce){ .blink,svg rect.blink,.hero-name{animation:none} }
 
   .log::-webkit-scrollbar{width:8px}
   .log::-webkit-scrollbar-thumb{background:var(--edge);border-radius:4px}
 
   @media (max-width: 640px){
-    .screen{border-radius:0;font-size:18px}
-    .bar{padding:8px 10px}
-    .bar .ttl{font-size:13px}
-    .head{gap:10px;padding:12px 12px 10px}
-    .desk{width:138px;flex:none;transform:scale(.78);transform-origin:left bottom}
-    .ascii{font-size:9px}
-    .tag{font-size:15px;line-height:1.2}
+    .screen{border-radius:0;font-size:16px}
+    .bar{grid-template-columns:86px 1fr;padding:10px 12px}
+    .window-dots{gap:9px}
+    .dot{width:12px;height:12px}
+    .bar .ttl{font-size:12px;text-align:right}
+    .bar .status{display:none}
+    .head{grid-template-columns:112px minmax(0,1fr);gap:14px;min-height:164px;padding:18px 14px 16px}
+    .hero-icon{transform:scale(.48);transform-origin:left center;width:96px}
+    .eyebrow{font-size:12px;margin-bottom:6px}
+    .hero-name{font-size:36px;text-shadow:
+      3px 3px 0 #6f8b5e99,
+      0 0 7px #d9efad66,
+      0 0 15px #9bbd7980,
+      0 0 26px #9bbd7948}
+    .tag{font-size:12px;line-height:1.4;margin-top:8px}
+    .hero-desc{display:none}
+    .hero-badges{gap:7px;margin-top:10px}
+    .hero-badge{font-size:10px;border-radius:6px;padding:4px 7px}
     .log{padding:10px 14px}
     .chips{gap:7px;padding:8px 14px}
-    .chip{font-size:17px;padding:2px 10px}
+    .chip{font-size:13px;padding:3px 10px}
     .row{gap:6px;padding:9px 14px 12px}
-    .row .ps{font-size:16px}
-    #in{min-width:0;font-size:17px}
+    .row .ps{font-size:12px}
+    #in{min-width:0;font-size:12px}
   }
 </style>
 </head>
@@ -94,22 +125,27 @@
 <div class="stage">
   <div class="screen" id="screen">
     <div class="bar">
-      <span class="dot" style="background:#ff5f56"></span>
-      <span class="dot" style="background:#ffbd2e"></span>
-      <span class="dot" style="background:#27c93f"></span>
-      <span class="ttl">ryu@portfolio: ~</span>
+      <div class="window-dots">
+        <span class="dot" style="background:#8aad72"></span>
+        <span class="dot" style="background:#f3e7bd"></span>
+        <span class="dot" style="background:#697669"></span>
+      </div>
+      <span class="ttl">ryu@portfolio:~/home</span>
+      <span class="status">TOKYO · OPEN TO WORK</span>
     </div>
 
     <div class="head">
-      <div class="desk"><span id="mac"></span><span id="mug"></span></div>
-      <div>
-        <pre class="ascii">██████╗ ██╗   ██╗██╗   ██╗
-██╔══██╗╚██╗ ██╔╝██║   ██║
-██████╔╝ ╚████╔╝ ██║   ██║
-██╔══██╗  ╚██╔╝  ██║   ██║
-██║  ██║   ██║   ╚██████╔╝
-╚═╝  ╚═╝   ╚═╝    ╚═════╝ </pre>
-        <div class="tag">software engineer · tokyo · building <b>ZTH</b></div>
+      <div class="hero-icon"><span id="mac"></span></div>
+      <div class="hero-copy">
+        <div class="eyebrow">software engineer</div>
+        <div class="hero-name">RYU</div>
+        <div class="tag">AWS Serverless · React · TypeScript · Data</div>
+        <div class="hero-desc">Tokyo-based engineer building ZTH - a tool that scores Japanese text difficulty.</div>
+        <div class="hero-badges">
+          <span class="hero-badge">building ZTH</span>
+          <span class="hero-badge">AWS SAA certified</span>
+          <span class="hero-badge">Tokyo</span>
+        </div>
       </div>
     </div>
 
@@ -132,7 +168,7 @@
         <span class="em">ZTH (Zero to Hero)</span> — 日本語学習者向けの読解難易度可視化ツール。<br>
         任意の日本語テキストを L1〜L10 で評価し、<br>
         語彙・文法・文章構造などの観点から判定理由を提示します。<br>
-        <span class="k">FastAPI · Sudachi · React/TS</span> &nbsp; <a class="lnk" href="https://github.com">→ github.com/&lt;you&gt;/zth</a>
+        <span class="k">FastAPI · Sudachi · React/TS</span> &nbsp; <span class="em">status: building</span>
       </div>
       <div class="blk">
         <span class="h">experience</span>
@@ -163,18 +199,36 @@
     }
     return "<svg width='"+(w*s)+"' height='"+(h*s)+"' shape-rendering='crispEdges' style='display:block'>"+r+"</svg>";
   }
-  var mac=["................","..OOOOOOOOOOOO..","..OBBBBBBBBBBbO.","..OBOOOOOOOOBbO.","..OBODDDDDDOBbO.","..OBODGGGGDOBbO.","..OBODGGGGDOBbO.","..OBODGGGXDOBbO.","..OBODDDDDDOBbO.","..OBOOOOOOOOBbO.","..OBBBBBBBBBBbO.","..OBLLBBBBLLBbO.","..OBBBBBBBBBBbO.","..ObbbbbbbbbbbO.","..OOOOOOOOOOOO..","................"];
-  var macPal={O:'#4a4f60',B:'#d8cfa8',b:'#b3a87f',D:'#0c1f16',G:'#7ee787',L:'#8a8262',X:'#7ee787'};
-  var mug=["..........","....S.S...","...S.S....",".OOOOOO...",".OCCCCO.OO",".OMMMMO..O",".OMMMMO..O",".OMMMMO.OO",".OOOOOO...",".........."];
-  var mugPal={O:'#4a4f60',M:'#3fb6bf',C:'#2a1d14',S:'#566177'};
-  document.getElementById('mac').innerHTML=draw(mac,macPal,7);
-  document.getElementById('mug').innerHTML=draw(mug,mugPal,6);
+  var mac=[
+    "....................",
+    "....................",
+    "....BBBBBBBBBBBB....",
+    "...BFFFFFFFFFFFFB...",
+    "...BFDDDDDDDDDDFB...",
+    "...BFDDDDDDDDDDFB...",
+    "...BFDDGDDDDGDDFB...",
+    "...BFDDGDDDDGDDFB...",
+    "...BFDDDDDDDDDDFB...",
+    "...BFDDDGDDGDDDFB...",
+    "...BFDDDDGGDDDDFB...",
+    "...BFDDDDDDDDDDFB...",
+    "...BFFFFFFFFFFFFB...",
+    "...BBBBBBBBBBBBBB...",
+    "...BBLLLBBBBLLLBB...",
+    "...BBBBBBBBBBBBBB...",
+    "....................",
+    "....................",
+    "....................",
+    "...................."
+  ];
+  var macPal={B:'#efe2b5',F:'#667365',D:'#0b1715',G:'#9bbd79',L:'#7f7a5b'};
+  document.getElementById('mac').innerHTML=draw(mac,macPal,11);
 
   var cmds={
     help:function(){return "available: <span class='cmd'>whoami</span>  <span class='cmd'>skills</span>  <span class='cmd'>projects</span>  <span class='cmd'>experience</span>  <span class='cmd'>contact</span>  <span class='cmd'>ls</span>  <span class='cmd'>clear</span>";},
     whoami:function(){return "<span class='em'>東京</span>を拠点に活動しているソフトウェアエンジニアです。<br>約 2.5 年の実務経験があり、AWS Serverless を中心とした開発に携わってきました。<br>現在は <span class='em'>ZTH</span> を開発しています。";},
     skills:function(){return "<span class='k'>backend &nbsp;</span> Python · FastAPI · AWS Lambda · DynamoDB<br><span class='k'>frontend</span> React · TypeScript<br><span class='k'>cloud/data</span> AWS · Redshift · Tableau<br><span class='k'>cert &nbsp;&nbsp;&nbsp;</span> <span class='em'>AWS Certified Solutions Architect - Associate</span>";},
-    projects:function(){return "<span class='em'>ZTH (Zero to Hero)</span> — 日本語学習者が自分に合った教材を選べるように、文章の読解難易度を可視化するツールです。<br>L1〜L10 の難易度スコアと、語彙・文法・文章構造などに基づく判定理由を提示します。<br><span class='k'>FastAPI · Sudachi · React/TS</span> &nbsp; <a class='lnk' href='https://github.com'>→ github.com/&lt;you&gt;/zth</a>";},
+    projects:function(){return "<span class='em'>ZTH (Zero to Hero)</span> — 日本語学習者が自分に合った教材を選べるように、文章の読解難易度を可視化するツールです。<br>L1〜L10 の難易度スコアと、語彙・文法・文章構造などに基づく判定理由を提示します。<br><span class='k'>FastAPI · Sudachi · React/TS</span> &nbsp; <span class='em'>status: building</span><br><span class='k'>公開リンクは準備中です。</span>";},
     experience:function(){return "<span class='em'>株式会社ものぐろす</span> / 正社員 · 2024.10–現在<br><span class='cmd'>★ 2025.07–現在</span> 社内業務効率化Webアプリ開発 — React+TS で SPA 設計・実装 / Lambda+DynamoDB サーバレス構成 / API 設計・実装 / 閉域網接続方式の設計<br><span class='k'>2025.09–2026.02</span> データ基盤・品質管理システム — 大容量 CSV/Tableau Prep バッチ、データ変換設計、性能改善(レスポンス大幅改善)<br><span class='k'>2024.10–2025.06</span> 商品管理・ダッシュボード開発 — 詳細設計・実装・テスト、ダッシュボード改修、障害対応<br><br><span class='em'>創点株式会社</span> / 契約社員 · 2023.12–2024.09<br><span class='k'>2023.12–2024.09</span> 受託開発(SI) — 債券管理システム移行、会計システム機能追加。画面・API 設計〜実装〜テストを一通り担当";},
     contact:function(){return "<a class='lnk' href='https://github.com/barkaaa'>github</a> &nbsp; <a class='lnk' href='mailto:liuboyang1531621783@gmail.com'>email</a> ";},
     ls:function(){return "<span class='cyn' style='color:var(--cyn)'>about.txt  skills.txt  projects/  experience.txt  contact.txt</span>";},
