@@ -15,6 +15,153 @@ canvas
     touch-action: none;
 }
 
+.loadingScene
+{
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle at 50% 42%, rgba(126, 231, 135, 0.12), transparent 32%),
+        linear-gradient(145deg, #191111 0%, #241a1a 48%, #101217 100%);
+    color: #d8f7b8;
+    font-family: 'Courier New', monospace;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 360ms ease, visibility 360ms ease;
+}
+
+.loadingScene.isHidden
+{
+    visibility: hidden;
+    opacity: 0;
+}
+
+.loadingPanel
+{
+    width: min(520px, calc(100vw - 48px));
+    transform: perspective(900px) rotateX(58deg) rotateZ(-8deg);
+    filter: drop-shadow(0 34px 24px rgba(0, 0, 0, 0.38));
+}
+
+.loadingTitle
+{
+    margin: 0 0 18px;
+    color: #7ee787;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-align: center;
+    text-shadow: 0 0 12px rgba(126, 231, 135, 0.65);
+}
+
+.loadingBar3d
+{
+    --progress-scale: 0;
+    position: relative;
+    height: 48px;
+    transform-style: preserve-3d;
+}
+
+.loadingTrack,
+.loadingFill,
+.loadingBarTop,
+.loadingBarSide
+{
+    border-radius: 6px;
+}
+
+.loadingTrack
+{
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border: 1px solid #3c4a63;
+    background: #121720;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.04);
+}
+
+.loadingFill
+{
+    position: absolute;
+    inset: 5px;
+    overflow: hidden;
+    background: linear-gradient(90deg, #46b66f, #7ee787 58%, #e3b341);
+    box-shadow: 0 0 22px rgba(126, 231, 135, 0.54);
+    transform: scaleX(var(--progress-scale));
+    transform-origin: left center;
+    transition: transform 180ms ease;
+}
+
+.loadingGlow
+{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.48) 42%, transparent 70%);
+    transform: translateX(-60%);
+    animation: loadingSweep 1.1s linear infinite;
+}
+
+.loadingBarTop
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -16px;
+    height: 16px;
+    background: linear-gradient(180deg, #2f3a4d, #1a202d);
+    transform: rotateX(72deg);
+    transform-origin: bottom;
+}
+
+.loadingBarSide
+{
+    position: absolute;
+    right: -20px;
+    top: 0;
+    width: 20px;
+    height: 48px;
+    background: linear-gradient(90deg, #111721, #293241);
+    transform: rotateY(68deg);
+    transform-origin: left;
+}
+
+.loadingMeta
+{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    color: #9ca8ba;
+    font-size: 16px;
+}
+
+@keyframes loadingSweep
+{
+    to { transform: translateX(120%); }
+}
+
+@media (prefers-reduced-motion: reduce)
+{
+    .loadingGlow { animation: none; }
+    .loadingFill { transition: none; }
+}
+
+@media (max-width: 640px)
+{
+    .loadingPanel
+    {
+        width: min(360px, calc(100vw - 32px));
+        transform: perspective(780px) rotateX(54deg) rotateZ(-6deg);
+    }
+
+    .loadingTitle
+    {
+        font-size: 15px;
+    }
+}
+
 .htmlScreen iframe
 {
     display: block;
