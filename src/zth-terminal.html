@@ -41,7 +41,7 @@
   .bar .status{text-align:right;font-size:16px;color:var(--grn);letter-spacing:1px;text-transform:uppercase}
 
   .head{display:grid;grid-template-columns:235px minmax(0,1fr);align-items:center;gap:36px;
-    min-height:300px;padding:42px 54px 38px;flex:none;border-bottom:1px solid var(--line)}
+    min-height:300px;margin:-12px -18px 18px;padding:42px 54px 38px;flex:none;border-bottom:1px solid var(--line)}
   .hero-icon{filter:drop-shadow(5px 6px 0 #0005)}
   .hero-copy{min-width:0}
   .eyebrow{color:var(--grn);font-size:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
@@ -100,7 +100,7 @@
     .dot{width:12px;height:12px}
     .bar .ttl{font-size:12px;text-align:right}
     .bar .status{display:none}
-    .head{grid-template-columns:112px minmax(0,1fr);gap:14px;min-height:164px;padding:18px 14px 16px}
+    .head{grid-template-columns:112px minmax(0,1fr);gap:14px;min-height:164px;margin:-10px -14px 14px;padding:18px 14px 16px}
     .hero-icon{transform:scale(.48);transform-origin:left center;width:96px}
     .eyebrow{font-size:12px;margin-bottom:6px}
     .hero-name{font-size:36px;text-shadow:
@@ -134,22 +134,21 @@
       <span class="status">TOKYO · OPEN TO WORK</span>
     </div>
 
-    <div class="head">
-      <div class="hero-icon"><span id="mac"></span></div>
-      <div class="hero-copy">
-        <div class="eyebrow">software engineer</div>
-        <div class="hero-name">RYU</div>
-        <div class="tag">AWS Serverless · React · TypeScript · Data</div>
-        <div class="hero-desc">Tokyo-based engineer building ZTH - a tool that scores Japanese text difficulty.</div>
-        <div class="hero-badges">
-          <span class="hero-badge">building ZTH</span>
-          <span class="hero-badge">AWS SAA certified</span>
-          <span class="hero-badge">Tokyo</span>
+    <div class="log" id="log">
+      <div class="head">
+        <div class="hero-icon"><span id="mac"></span></div>
+        <div class="hero-copy">
+          <div class="eyebrow">software engineer</div>
+          <div class="hero-name">RYU</div>
+          <div class="tag">AWS Serverless · React · TypeScript · Data</div>
+          <div class="hero-desc">Tokyo-based engineer building ZTH - a tool that scores Japanese text difficulty.</div>
+          <div class="hero-badges">
+            <span class="hero-badge">building ZTH</span>
+            <span class="hero-badge">AWS SAA certified</span>
+            <span class="hero-badge">Tokyo</span>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="log" id="log">
       <div class="blk">
         <span class="h">whoami</span>
         <span class="em">東京</span>を拠点に活動しているソフトウェアエンジニアです。<br>
