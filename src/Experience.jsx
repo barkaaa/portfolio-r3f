@@ -1,4 +1,6 @@
 import { ContactShadows, Environment, Float, Html, PresentationControls, useGLTF } from '@react-three/drei'
+import { useThree } from '@react-three/fiber'
+import { useEffect } from 'react'
 import DeskLamp from './resources/DeskLamp.jsx'
 import WoodDesk from './resources/WoodDesk.jsx'
 import terminalHtml from './zth-terminal.html?raw'
@@ -6,6 +8,26 @@ import terminalHtml from './zth-terminal.html?raw'
 export default function Experience()
 {
     const computer = useGLTF('https://threejs-journey.com/resources/models/macbook_model.gltf')
+    const { camera, size } = useThree()
+    const isMobile = size.width <= 640
+
+    useEffect(() =>
+    {
+        if (isMobile)
+        {
+            camera.position.set(0, 1.05, 4.75)
+            camera.fov = 40
+            camera.lookAt(0, 0.05, 0)
+        }
+        else
+        {
+            camera.position.set(-3, 1.5, 4)
+            camera.fov = 45
+            camera.lookAt(0, 0, 0)
+        }
+
+        camera.updateProjectionMatrix()
+    }, [camera, isMobile])
 
     return <>
         <Environment preset='city' />
@@ -13,14 +35,14 @@ export default function Experience()
 
         <PresentationControls 
             global
-            rotation={ [ 0.13, 0.1, 0 ] }
-            polar={ [ - 0.4, 0.2 ] }
-            azimuth={ [ - 1, 0.75 ] }
+            rotation={ isMobile ? [0.08, 0, 0] : [ 0.13, 0.1, 0 ] }
+            polar={ isMobile ? [-0.12, 0.12] : [ - 0.4, 0.2 ] }
+            azimuth={ isMobile ? [-0.22, 0.22] : [ - 1, 0.75 ] }
             damping={ 0.1 }
             snap
         >
 
-            <Float rotationIntensity={ 0.4 }>
+            <Float rotationIntensity={ isMobile ? 0.18 : 0.4 }>
 
                 <rectAreaLight
                     width={ 2.5 }

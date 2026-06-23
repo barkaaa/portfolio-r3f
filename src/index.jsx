@@ -5,6 +5,7 @@ import { Canvas } from '@react-three/fiber'
 import { Leva } from 'leva'
 import { DefaultLoadingManager } from 'three'
 import Experience from './Experience.jsx'
+import terminalHtml from './zth-terminal.html?raw'
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
 
@@ -98,8 +99,42 @@ function LoadingOverlay()
     </div>
 }
 
-root.render(
-    <>
+function useIsMobile()
+{
+    const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 640px)').matches)
+
+    useEffect(() =>
+    {
+        const query = window.matchMedia('(max-width: 640px)')
+        const update = () => setIsMobile(query.matches)
+
+        update()
+        query.addEventListener('change', update)
+
+        return () =>
+        {
+            query.removeEventListener('change', update)
+        }
+    }, [])
+
+    return isMobile
+}
+
+function MobileTerminal()
+{
+    return <main className="mobileTerminalPage">
+        <iframe srcDoc={ terminalHtml } title="RYU portfolio terminal" />
+    </main>
+}
+
+function App()
+{
+    const isMobile = useIsMobile()
+
+    if (isMobile)
+        return <MobileTerminal />
+
+    return <>
         <Leva collapsed={ false } />
         <Canvas
             className="r3f"
@@ -116,4 +151,8 @@ root.render(
         </Canvas>
         <LoadingOverlay />
     </>
+}
+
+root.render(
+    <App />
 )

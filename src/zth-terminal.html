@@ -72,6 +72,22 @@
 
   .log::-webkit-scrollbar{width:8px}
   .log::-webkit-scrollbar-thumb{background:var(--edge);border-radius:4px}
+
+  @media (max-width: 640px){
+    .screen{border-radius:0;font-size:18px}
+    .bar{padding:8px 10px}
+    .bar .ttl{font-size:13px}
+    .head{gap:10px;padding:12px 12px 10px}
+    .desk{width:138px;flex:none;transform:scale(.78);transform-origin:left bottom}
+    .ascii{font-size:9px}
+    .tag{font-size:15px;line-height:1.2}
+    .log{padding:10px 14px}
+    .chips{gap:7px;padding:8px 14px}
+    .chip{font-size:17px;padding:2px 10px}
+    .row{gap:6px;padding:9px 14px 12px}
+    .row .ps{font-size:16px}
+    #in{min-width:0;font-size:17px}
+  }
 </style>
 </head>
 <body>
