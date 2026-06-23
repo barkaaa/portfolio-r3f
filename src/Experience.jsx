@@ -1,4 +1,4 @@
-import { ContactShadows, Environment, Float, Html, PresentationControls, Text, useGLTF } from '@react-three/drei'
+import { ContactShadows, Environment, Float, Html, PresentationControls, useGLTF } from '@react-three/drei'
 import DeskLamp from './resources/DeskLamp.jsx'
 import WoodDesk from './resources/WoodDesk.jsx'
 import terminalHtml from './zth-terminal.html?raw'
@@ -38,20 +38,23 @@ export default function Experience()
                         transform
                         wrapperClass='htmlScreen'
                         distanceFactor={1.17}
+                        zIndexRange={[10, 0]}
                         position={[0, 1.56, - 1.4]}
                         rotation-x={-0.256}
                     >
                         <iframe srcDoc={ terminalHtml } title="RYU portfolio terminal" />
                     </Html>
                 </primitive>
-                <Text 
-                    font='./bangers-v20-latin-regular.woff'
-                    fontSize={ 1 }
+                <Html
+                    transform
+                    wrapperClass='portfolioTitle'
+                    distanceFactor={1.17}
+                    zIndexRange={[20, 11]}
                     position={ [2, 0.75, 0.75 ]}
-                    rotate-y={ -1.75 }
-                    maxWidth={ 2 }
-                    textAlign='center'
-                >PORTFOLIO</Text>
+                    rotation-y={ -1.75 }
+                >
+                    <div>PORTFOLIO</div>
+                </Html>
             </Float>
         </PresentationControls>
         <ContactShadows 

@@ -12,6 +12,7 @@ const loadingState = { progress: 0, visible: true }
 const loadingListeners = new Set()
 let loadingFrame = 0
 let loadingHideTimer = 0
+let loadingHasCompleted = false
 
 function setLoadingState(nextState)
 {
@@ -25,18 +26,25 @@ function setLoadingState(nextState)
 
 DefaultLoadingManager.onStart = () =>
 {
+    if (loadingHasCompleted)
+        return
+
     clearTimeout(loadingHideTimer)
-    setLoadingState({ progress: 0, visible: true })
+    setLoadingState({ visible: true })
 }
 
 DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
 {
+    if (loadingHasCompleted)
+        return
+
     const progress = itemsTotal ? (itemsLoaded / itemsTotal) * 100 : 0
-    setLoadingState({ progress, visible: true })
+    setLoadingState({ progress: Math.max(loadingState.progress, progress), visible: true })
 }
 
 DefaultLoadingManager.onLoad = () =>
 {
+    loadingHasCompleted = true
     setLoadingState({ progress: 100, visible: true })
     loadingHideTimer = setTimeout(() =>
     {
@@ -46,6 +54,7 @@ DefaultLoadingManager.onLoad = () =>
 
 DefaultLoadingManager.onError = () =>
 {
+    loadingHasCompleted = true
     setLoadingState({ progress: 100, visible: false })
 }
 
@@ -72,7 +81,7 @@ function LoadingOverlay()
     >
         <div className="loadingPanel">
             <div className="loadingTitle">LOADING 3D SCENE</div>
-            <div className="loadingBar3d" style={{ '--progress-scale': progress / 100 }}>
+            <div className="loadingBar3d" style={{ '--progress-scale': Math.min(progress / 100, 1) }}>
                 <div className="loadingTrack">
                     <div className="loadingFill">
                         <span className="loadingGlow" />

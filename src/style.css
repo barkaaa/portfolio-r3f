@@ -15,6 +15,13 @@ canvas
     touch-action: none;
 }
 
+@font-face
+{
+    font-family: 'BangersLocal';
+    src: url('/bangers-v20-latin-regular.woff') format('woff');
+    font-display: swap;
+}
+
 .loadingScene
 {
     position: fixed;
@@ -178,4 +185,26 @@ canvas
     height: 670px;
     overflow: hidden;
     border-radius: 20px;
+}
+
+.portfolioTitle
+{
+    pointer-events: none;
+}
+
+.portfolioTitle div
+{
+    color: #f8f7f3;
+    font-family: 'BangersLocal', Impact, sans-serif;
+    font-size: 190px;
+    line-height: 0.9;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow:
+        3px 3px 0 #d8d2c7,
+        7px 7px 0 rgba(0, 0, 0, 0.34),
+        0 12px 30px rgba(0, 0, 0, 0.42);
+    transform: skewX(-8deg);
+    transform-origin: center;
 }
