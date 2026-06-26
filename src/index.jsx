@@ -1,5 +1,5 @@
 import './style.css'
-import { Suspense, useEffect, useState } from 'react'
+import { Component, Suspense, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import { Leva } from 'leva'
@@ -8,6 +8,49 @@ import Experience from './Experience.jsx'
 import terminalHtml from './zth-terminal.html?raw'
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
+
+function canUseWebGL()
+{
+    try
+    {
+        const canvas = document.createElement('canvas')
+        return Boolean(
+            window.WebGLRenderingContext &&
+            (canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+        )
+    }
+    catch
+    {
+        return false
+    }
+}
+
+class CanvasErrorBoundary extends Component
+{
+    constructor(props)
+    {
+        super(props)
+        this.state = { hasError: false }
+    }
+
+    static getDerivedStateFromError()
+    {
+        return { hasError: true }
+    }
+
+    componentDidCatch(error)
+    {
+        console.warn('Falling back to terminal view because WebGL failed.', error)
+    }
+
+    render()
+    {
+        if (this.state.hasError)
+            return this.props.fallback
+
+        return this.props.children
+    }
+}
 
 const loadingState = { progress: 0, visible: true }
 const loadingListeners = new Set()
@@ -120,9 +163,9 @@ function useIsMobile()
     return isMobile
 }
 
-function MobileTerminal()
+function TerminalFallback()
 {
-    return <main className="mobileTerminalPage">
+    return <main className="terminalFallbackPage">
         <iframe srcDoc={ terminalHtml } title="RYU portfolio terminal" />
     </main>
 }
@@ -130,27 +173,37 @@ function MobileTerminal()
 function App()
 {
     const isMobile = useIsMobile()
+    const [webGLAvailable, setWebGLAvailable] = useState(() => canUseWebGL())
 
-    if (isMobile)
-        return <MobileTerminal />
+    if (isMobile || !webGLAvailable)
+        return <TerminalFallback />
 
-    return <>
+    return <CanvasErrorBoundary fallback={ <TerminalFallback /> }>
         <Leva collapsed={ false } />
-        <Canvas
-            className="r3f"
-            camera={ {
-                fov: 45,
-                near: 0.1,
-                far: 2000,
-                position: [ -3, 1.5, 4 ]
-            } }
-        >
-            <Suspense fallback={ null }>
-                <Experience />
-            </Suspense>
-        </Canvas>
-        <LoadingOverlay />
-    </>
+        <>
+            <Canvas
+                className="r3f"
+                camera={ {
+                    fov: 45,
+                    near: 0.1,
+                    far: 2000,
+                    position: [ -3, 1.5, 4 ]
+                } }
+                onCreated={ ({ gl }) =>
+                {
+                    gl.domElement.addEventListener('webglcontextlost', () =>
+                    {
+                        setWebGLAvailable(false)
+                    }, { once: true })
+                } }
+            >
+                <Suspense fallback={ null }>
+                    <Experience />
+                </Suspense>
+            </Canvas>
+            <LoadingOverlay />
+        </>
+    </CanvasErrorBoundary>
 }
 
 root.render(

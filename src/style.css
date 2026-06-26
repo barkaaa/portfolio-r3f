@@ -15,14 +15,14 @@ canvas
     touch-action: none;
 }
 
-.mobileTerminalPage
+.terminalFallbackPage
 {
     width: 100%;
     height: 100%;
     background: #0e1016;
 }
 
-.mobileTerminalPage iframe
+.terminalFallbackPage iframe
 {
     display: block;
     width: 100%;
