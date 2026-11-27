@@ -174,6 +174,19 @@ function App()
 {
     const isMobile = useIsMobile()
     const [webGLAvailable, setWebGLAvailable] = useState(() => canUseWebGL())
+    const [frontView, setFrontView] = useState(false)
+
+    useEffect(() =>
+    {
+        const onKeyDown = (event) =>
+        {
+            if (event.key === 'Escape')
+                setFrontView(false)
+        }
+
+        window.addEventListener('keydown', onKeyDown)
+        return () => window.removeEventListener('keydown', onKeyDown)
+    }, [])
 
     if (isMobile || !webGLAvailable)
         return <TerminalFallback />
@@ -198,9 +211,17 @@ function App()
                 } }
             >
                 <Suspense fallback={ null }>
-                    <Experience />
+                    <Experience frontView={ frontView } />
                 </Suspense>
             </Canvas>
+            <button
+                type="button"
+                className={ `viewToggle${frontView ? ' isActive' : ''}` }
+                aria-pressed={ frontView }
+                onClick={ () => setFrontView((value) => !value) }
+            >
+                { frontView ? '← 3D View' : 'Front View' }
+            </button>
             <LoadingOverlay />
         </>
     </CanvasErrorBoundary>
