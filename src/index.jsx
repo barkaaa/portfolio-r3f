@@ -170,11 +170,44 @@ function TerminalFallback()
     </main>
 }
 
+// Safety net for the CSS overflow: clip rule: if anything in the page still
+// scrolls (window or an element), put it back so the CSS3D screen stays aligned
+// with the WebGL laptop.
+function usePinnedScroll()
+{
+    useEffect(() =>
+    {
+        const onScroll = (event) =>
+        {
+            const target = event.target
+            if (target === document || target === document.documentElement)
+            {
+                if (window.scrollX || window.scrollY)
+                    window.scrollTo(0, 0)
+                return
+            }
+
+            const inScene = target instanceof Element &&
+                (target === document.body || target.id === 'root' || target.closest('.r3f'))
+
+            if (inScene && (target.scrollTop || target.scrollLeft))
+            {
+                target.scrollTop = 0
+                target.scrollLeft = 0
+            }
+        }
+
+        document.addEventListener('scroll', onScroll, true)
+        return () => document.removeEventListener('scroll', onScroll, true)
+    }, [])
+}
+
 function App()
 {
     const isMobile = useIsMobile()
     const [webGLAvailable, setWebGLAvailable] = useState(() => canUseWebGL())
     const [frontView, setFrontView] = useState(false)
+    usePinnedScroll()
 
     useEffect(() =>
     {

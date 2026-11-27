@@ -15,6 +15,22 @@ canvas
     touch-action: none;
 }
 
+/*
+ * The terminal screen is a CSS3D-transformed element living inside these
+ * containers. They must never scroll: Firefox scrolls overflow:hidden boxes to
+ * keep a focused/typed-in input or a text selection "in view", which slides the
+ * screen off the 3D laptop and leaves the dark glass showing.
+ * overflow: clip clips like hidden but is not a scroll container.
+ */
+html,
+body,
+#root,
+.r3f,
+.r3f > div
+{
+    overflow: clip !important;
+}
+
 .terminalFallbackPage
 {
     width: 100%;
@@ -199,7 +215,7 @@ canvas
 {
     width: 1024px;
     height: 670px;
-    overflow: hidden;
+    overflow: clip;
     border-radius: 20px;
 }
 
