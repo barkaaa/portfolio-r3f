@@ -242,9 +242,12 @@
   order.forEach(function(c){
     var b=document.createElement('button');
     b.className='chip'; b.textContent=c;
-    b.addEventListener('click',function(){ run(c); inp.focus(); });
+    b.addEventListener('click',function(){ run(c); focusInput(); });
     chipBox.appendChild(b);
   });
+  // preventScroll: in Firefox a plain focus() also scrolls the parent page's
+  // overflow:hidden containers, which pushes the 3D screen content out of place
+  function focusInput(){ inp.focus({ preventScroll: true }); }
   function scroll(){ log.scrollTop=log.scrollHeight; }
   function run(raw){
     var c=(raw||'').trim(); if(!c) return;
@@ -262,7 +265,11 @@
     else if(e.key==='ArrowDown'){ if(hi<hist.length-1){hi++;inp.value=hist[hi];} else {hi=hist.length;inp.value='';} e.preventDefault(); }
   });
   document.getElementById('screen').addEventListener('click',function(e){
-    if(e.target.tagName!=='A' && e.target.tagName!=='BUTTON') inp.focus();
+    if(e.target.tagName==='A' || e.target.tagName==='BUTTON') return;
+    // Keep a text selection the visitor just made instead of stealing focus
+    var sel=window.getSelection();
+    if(sel && !sel.isCollapsed) return;
+    focusInput();
   });
 }());
 </script>
