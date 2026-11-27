@@ -232,3 +232,36 @@ canvas
         display: none;
     }
 }
+
+.portfolioTitle.isHidden
+{
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.viewToggle
+{
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2147483000;
+    padding: 10px 18px;
+    border: 1px solid #3c4a63;
+    border-radius: 8px;
+    background: rgba(18, 23, 32, 0.86);
+    color: #d8f7b8;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+.viewToggle:hover,
+.viewToggle:focus-visible
+{
+    border-color: #7ee787;
+    background: rgba(30, 40, 30, 0.92);
+    outline: none;
+}
